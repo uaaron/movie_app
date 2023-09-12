@@ -1,12 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MmyFlix API Documentation</title>
 </head>
+
 <body>
-    <h1>Movie API</h1>
-    <p>This API will be used to access a database of a certain collection/genre of movies to return to the Movie Application that will be created.</p>
+    <h1>myFlix App Documentation</h1>
+
+    <!-- Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Request</th>
+                <th>URL</th>
+                <th>HTTP Method</th>
+                <th>Request body data format</th>
+                <th>Response body data format</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Get a list of ALL movies</td>
+                <td>/movies</td>
+                <td>GET</td>
+                <td>none</td>
+                <td>A JSON object containing an array with all movies</td>
+            </tr>
+            <tr>
+                <td>Get data about a single movie by title</td>
+                <td>/movies/:title</td>
+                <td>GET</td>
+                <td>none</td>
+                <td>A JSON object containing data about a single movie title, including description, genre, director,
+                    image URL, whether it's featured or not. Example:
+                    <code>
+                        {
+                            
+                            "title": "Goldeneye",
+                            "genre": {
+                                "name": "action",
+                                "description": "Action movies will contain a lot of violence and stunts."
+                            },
+                            "director": {
+                                "name": "Martin Campbell",
+                                "bio": "Born in a remote village in the Swiss Alps",
+                                "birth": 1954
+                            },
+                            "imageURL": "https://www.imdb.com/title/tt0113189/mediaviewer/rm486027265/?ref_=tt_ov_i",
+                                "featured": false
+                        
+                        }
+                    </code>
+                </td>
+            </tr>
+            <tr>
+                <td>Get data about a movie's genre</td>
+                <td>/movies/genre/:genreName</td>
+                <td>GET</td>
+                <td>none</td>
+                <td>
+                    A JSON object containing the genre name and description of genre. Example:
+                    <code>
+                        {
+                            "name": "action",
+                            "description": "Action movies will contain a lot of violence and stunts."
+                        }
+                    </code>
+                </td>
+            </tr>
+            <tr>
+                <td>Get data about a movie's director</td>
+                <td>/movies/director/:directorName</td>
+                <td>GET</td>
+                <td>none</td>
+                <td>
+                    A JSON object containing the directors bio and birth year. Example:
+                    <code>
+                        {
+                            "name": "Martin Campbell",
+                            "bio": "Born in a remote village in the Swiss Alps",
+                            "birth": 1954
+                        }
+                    </code>
+                </td>
+            </tr>
+            <tr>
+                <td>Add a new user</td>
+                <td>/users</td>
+                <td>POST</td>
+                <td>
+                    A JSON object holding user data as such:
+                    <code>
+                        {
+                            "name": "Mary",
+                            "favoriteMovies": []
+                        }
+                    </code>
+                </td>
+                <td>
+                    A JSON object holding the user name along with unique ID. Example:
+                    <code>
+                        {
+                            "name": "Mary",
+                            "favoriteMovies": [],
+                            "id": "5aa59ee6-e5e3-4515-bb96-3ee3dc874e25"
+                        }
+                    </code>
+                </td>
+            </tr>
+            <tr>
+                <td>Update user info</td>
+                <td>/users:id</td>
+                <td>PUT</td>
+                <td>
+                    A JSON object containing the chosen key/value pair to update. Example:
+                    <code>
+                        {
+                            "name": "Kim Updated",
+                            "favoriteMovies": []
+                        }
+                    </code>
+                </td>
+                <td>
+                    A JSON object containing all user information after being updated. Example:
+                    <code>
+                        {
+                            "id": 1,
+                            "name": "Kim Updated",
+                            "favoriteMovies": []
+                        }
+                    </code>
+                </td>
+            </tr>
+            <tr>
+                <td>Add a movie to user's favorites list</td>
+                <td>users/:id/:movieTitle</td>
+                <td>POST</td>
+                <td>none</td>
+                <td>
+                    A JSON object with the updated array of favorite movies:
+                    <code>
+                        {
+                            "id": 1,
+                            "name": "Kim",
+                            "favoriteMovies": "Goldeneye"
+                        }
+                    </code>
+                </td>
+            </tr>
+            <tr>
+                <td>Remove a movie from user's favorites list</td>
+                <td>/users/:id/:movieTitle</td>
+                <td>DELETE</td>
+                <td>none</td>
+                <td>
+                    A JSON object with favorite movie array updated. Example:
+                    <code>
+                        {
+                            id: 2,
+                            name: "Joe",
+                            favoriteMovies: []
+                        }
+                    </code>
+                </td>
+            </tr>
+            <tr>
+                <td>Delete user's account</td>
+                <td>/users/:id</td>
+                <td>DELETE</td>
+                <td>none</td>
+                <td>
+                    An updated users JSON object containing the remaining users. Example:
+                    <code>
+                        {
+                            id: 1,
+                            name: "Kim",
+                            favoriteMovies: []
+                        }
+                    </code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </body>
+
 </html>

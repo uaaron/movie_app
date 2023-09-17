@@ -31,7 +31,7 @@
             </tr>
             <tr>
                 <td>Get data about a single movie by title</td>
-                <td>/movies/:title</td>
+                <td>/movies/:Title</td>
                 <td>GET</td>
                 <td>none</td>
                 <td>A JSON object containing data about a single movie title, including description, genre, director,
@@ -97,10 +97,10 @@
                     A JSON object holding user data as such:
                     <code>
                         {
-                            "Name": "Mary",
-                            "Password": "maryG@gmail.com",
-                            "Birthday": "10-31-1990"
-                            "FavoriteMovies": []
+                            "Name": string,
+                            "Password": string,
+                            "Birthday": date,
+                            "FavoriteMovies": array
                         }
                     </code>
                 </td>
@@ -118,14 +118,16 @@
             </tr>
             <tr>
                 <td>Update user info</td>
-                <td>/users:username</td>
+                <td>/users:userName</td>
                 <td>PUT</td>
                 <td>
                     A JSON object containing the chosen key/value pair to update. Example:
                     <code>
                         {
-                            "UserName": "kingkenny",
-                            "favoriteMovies": [ ObjectId("6503933cd5ad7180cd9d51cf")]
+                            "UserName": string,
+                            "Password": string,
+                            "Email": string,
+                            "favoriteMovies": array
                         }
                     </code>
                 </td>
@@ -143,7 +145,7 @@
             </tr>
             <tr>
                 <td>Add a movie to user's favorites list</td>
-                <td>users/:username/:movieTitle</td>
+                <td>users/:UserName/movies/:movieID</td>
                 <td>POST</td>
                 <td>none</td>
                 <td>
@@ -160,7 +162,7 @@
             </tr>
             <tr>
                 <td>Remove a movie from user's favorites list</td>
-                <td>/users/:username/:movieTitle</td>
+                <td>/users/:UserName/movies/:movieID</td>
                 <td>DELETE</td>
                 <td>none</td>
                 <td>
@@ -177,7 +179,7 @@
             </tr>
             <tr>
                 <td>Delete user's account</td>
-                <td>/users/:username</td>
+                <td>/users/:UserName</td>
                 <td>DELETE</td>
                 <td>none</td>
                 <td>

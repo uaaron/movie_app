@@ -1,20 +1,23 @@
-//import dependencies
+// --- import dependencies ---
 const express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
     uuid = require('uuid'),
     mongoose = require('mongoose'),
-    Models = require('./models.js');
+    Models = require('./models.js'),
+    bcrypt = require('bcrypt');
+
+const { check, validationResult } = require('express-validator');
 
 
-//Models
+// --- Models ---
 const Movies = Models.Movie;
 const Users = Models.User;
 
 mongoose.connect('mongodb://127.0.0.1:27017/myflix', {useNewUrlParser: true, useUnifiedTopology: true });
 
 
-//CORS funcitonality
+// --- CORS funcitonality ---
 const cors = require('cors');
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 
@@ -44,7 +47,24 @@ require('./passport');
 // ----------------- ROUTES  --------------------=
 
 // Create User
-app.post('/users', (req, res) => {
+app.post('/users', 
+
+// Validation logic for request
+    [
+        check('UserName', 'Username is required').isLength({min:5}),
+        check('UserName', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+        check('Password', 'Password is required').not().isEmpty(),
+        check('Email', 'Email does not appear to be valid').isEmail()
+    ], (req, res) => {
+
+// Check validation for errors
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+
+    let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ UserName: req.body.UserName })
     .then((user) => {
         if (user) {
@@ -53,7 +73,7 @@ app.post('/users', (req, res) => {
             Users
                 .create({
                     UserName: req.body.UserName,
-                    Password: req.body.Password,
+                    Password: hashedPassword,
                     Email: req.body.Email,
                     Birthday: req.body.Birthday
                 })

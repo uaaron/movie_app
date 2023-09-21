@@ -5,7 +5,7 @@ const express = require('express'),
     uuid = require('uuid'),
     mongoose = require('mongoose'),
     Models = require('./models.js'),
-    bcrypt = require('bcrypt');
+    bcrypt = require('bcryptjs');
 
 const { check, validationResult } = require('express-validator');
 

@@ -47,6 +47,10 @@ require('./passport');
 
 // ----------------- ROUTES  --------------------=
 
+app.get('/', (req, res) => {
+    res.send('Welcome!')
+});
+
 // Create User
 app.post('/users', 
 

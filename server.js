@@ -18,7 +18,8 @@ const Users = Models.User;
 mongoose.connect( process.env.CONNECTION_URI, {useNewUrlParser: true, useUnifiedTopology: true });
 
 
-// --- CORS funcitonality ---
+// --- Restrictive CORS funcitonality ---
+/*
 const cors = require('cors');
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 
@@ -31,6 +32,11 @@ app.use(cors({
         }
         return callback(null, true);
     }
+})); */
+
+// --- CORS functionality to allow all users ---
+app.use(cors({
+    origin: '*'
 }));
 
 
@@ -134,7 +140,20 @@ app.get('/users/:UserName', passport.authenticate('jwt', { session: false } ), (
 
 //Update User Name
 
-app.put('/users/:UserName', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.put('/users/:UserName',
+[
+    check('UserName', 'Username is required').isLength({min:5}),
+    check('UserName', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
+],  
+passport.authenticate('jwt', { session: false }), (req, res) => {
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+
     if (req.user.UserName !== req.params.UserName) {
         return res.status(400).send('Permission denied');
     }

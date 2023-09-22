@@ -19,8 +19,8 @@ mongoose.connect( process.env.CONNECTION_URI, {useNewUrlParser: true, useUnified
 
 
 // --- Restrictive CORS funcitonality ---
-/*
 const cors = require('cors');
+/*
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 
 app.use(cors({

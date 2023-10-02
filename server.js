@@ -241,7 +241,7 @@ app.delete('/users/:UserName', passport.authenticate('jwt', { session: false }),
 
 
 //READ list of movies
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
 	Movies.find()
 		.then((movies) => {
 			res.status(200).json(movies)
@@ -285,7 +285,7 @@ app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: fals
 })
 
 // READ director info
-app.get('/movies/director/:directorName', (req, res) => {
+app.get('/movies/director/:directorName', passport.authenticate('jwt', { session: false }), (req, res) => {
 	Movies.findOne({ "Director.Name": req.params.directorName })
 		.then((director) => {
 			if (director) {
